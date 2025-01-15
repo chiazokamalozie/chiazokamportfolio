@@ -1,4 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Smooth scrolling for menu links
+    document.querySelectorAll('nav ul li a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
     // Bar Chart Quiz
     const barChartCtx = document.getElementById('barChart').getContext('2d');
     const barChart = new Chart(barChartCtx, {
@@ -58,6 +68,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+function toggleMenu() {
+    const navLinks = document.getElementById('nav-links');
+    navLinks.classList.toggle('show');
+}
 
 function startQuiz() {
     const quizContainer = document.getElementById('quiz-container');
