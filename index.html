@@ -3,204 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHIAZOKAM ALOZIE PORTFOLIO</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Interactive Resume | Chiazokam Alozie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral (Stone Gray, Amber Accent) -->
+    <!-- Application Structure Plan: A single-page, multi-section interactive resume. The structure is designed to guide a user (recruiter/hiring manager) through a narrative of the candidate's professional identity. It starts with a high-level Personal Statement, moves to a visual representation of Key Skills (Radar Chart), then details Professional and Volunteer Experience in an interactive timeline, and concludes with Education & Certifications. This top-down approach allows a user to get a quick overview and then dive deeper into the areas that interest them most, which is a more user-friendly flow than a traditional linear document. -->
+    <!-- Visualization & Content Choices: 
+        - Personal Statement -> Goal: Inform/Introduce -> Presentation: Prominent Text Block -> Justification: Sets the professional tone and provides an immediate summary of the candidate's value proposition.
+        - Key Skills -> Goal: Compare/Organize -> Viz: Radar Chart (Chart.js) -> Interaction: Hover tooltips -> Justification: Transforms a list of technical and soft skills into a compelling visual that demonstrates balanced expertise across different domains (e.g., Database Admin, Project Management). It's more engaging than a simple list.
+        - Work/Volunteer Experience -> Goal: Show Progression/Detail -> Presentation: Interactive Vertical Timeline (HTML/CSS/JS) -> Interaction: Click to expand/collapse details -> Justification: Manages information density effectively. Users see a high-level career path first and can choose to explore the specific responsibilities of each role, preventing information overload.
+        - Education/Certs -> Goal: Inform/Verify -> Presentation: Structured List -> Justification: Presents credentials in a clear, easily scannable format for quick verification.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+            color: #44403c; /* stone-700 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px; /* Base height */
+            max-height: 500px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.375rem; /* (w-9 / 2) - (w-5 / 2) */
+            top: 0.25rem;
+            width: 1.25rem; /* w-5 */
+            height: 1.25rem; /* h-5 */
+            border-radius: 9999px;
+            background-color: #d97706; /* amber-600 */
+            border: 4px solid #fef3c7; /* amber-100 */
+        }
+        .timeline-item-volunteer::before {
+             background-color: #a8a29e; /* stone-400 */
+             border-color: #e7e5e4; /* stone-200 */
+        }
+        .toggle-btn.expanded .arrow {
+            transform: rotate(90deg);
+        }
+    </style>
 </head>
-<body onload="brython()">
-    <header>
-        <div class="container">
-            <h1>CHIAZOKAM ALOZIE</h1>
-            <nav>
-                <ul>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#education">Education</a></li>
-                    <li><a href="#games">Games</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<body class="antialiased">
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>Highly analytical and results-oriented Analyst, known for a professional background in improving business operations, mitigating risks, and optimizing data-driven strategies. Utilizes high-level tools, including Python, SQL, and cloud technologies, to discover opportunities and produce actionable insights. Distinct contributions include driving operational improvements for Alochid Ltd; managing risk initiatives to reduce delays for Nigeria Customs Service; and successfully coordinating complex projects during the NYSC program. A dynamic problem-solver with strong project management, critical thinking, and cross-functional collaboration capabilities that consistently deliver measurable outcomes in fast-paced environments.</p>
-    </section>
-
-    <section id="projects">
-        <h2>Projects</h2>
-        <div class="project">
-            <a href="https://github.com/chiazokamalozie/PROJECTS/tree/main/WEBSITE%20DEVELOPMENT" target="_blank">
-                <img src="project1.png" alt="Project 1 Preview">
-            </a>
-            <div class="project-details">
-                <h3>ALOCHID WEBSITE</h3>
-                <p>Website development</p>
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+        <!-- Header -->
+        <header class="text-center mb-12 md:mb-16">
+            <h1 class="text-4xl md:text-6xl font-bold text-stone-800">Chiazokam Alozie</h1>
+            <p class="text-xl md:text-2xl text-amber-700 mt-2">Analyst | SQL Database Administrator</p>
+            <div class="mt-6 flex justify-center items-center gap-x-6 gap-y-2 flex-wrap text-stone-500">
+                <span>07394844892</span>
+                <span class="hidden md:inline">|</span>
+                <span>chiazialozie@outlook.com</span>
+                <span class="hidden md:inline">|</span>
+                <a href="https://linkedin.com/in/chiazalozie" target="_blank" class="text-amber-700 hover:text-amber-800 transition-colors">linkedin.com/in/chiazalozie</a>
+                 <span class="hidden md:inline">|</span>
+                <a href="https://github.com/chiazokamalozie/" target="_blank" class="text-amber-700 hover:text-amber-800 transition-colors">github.com/chiazokamalozie</a>
             </div>
-        </div>
-        <div class="project">
-            <a href="https://github.com/chiazokamalozie/PROJECTS/tree/main/DATA%20ANALYSIS/CYBER%20DATA%20BREACHES" target="_blank">
-                <img src="project2.png" alt="Project 2 Preview">
-            </a>
-            <div class="project-details">
-                <h3>CYBER DATA BREACHES</h3>
-                <p>Analyzed and predicted data breaches.</p>
+        </header>
+
+        <!-- Personal Statement -->
+        <section id="statement" class="mb-12 md:mb-16 bg-white p-8 rounded-xl shadow-md border border-stone-200">
+            <h2 class="text-3xl font-bold text-stone-800 mb-4 text-center">Personal Statement</h2>
+            <p class="text-center text-stone-600 max-w-3xl mx-auto">
+                A highly driven and results-focused professional with five years of experience in data-centric and client-facing roles. Proficient in ensuring SQL service availability, optimizing database performance, and managing critical functions like backups and security. Committed to leveraging a proactive approach and strong SQL proficiencies to effectively administer and construct resilient SQL Server environments.
+            </p>
+        </section>
+
+        <!-- Key Skills -->
+        <section id="skills" class="mb-12 md:mb-16">
+            <h2 class="text-3xl font-bold text-stone-800 text-center mb-4">Key Skills</h2>
+            <p class="text-center text-stone-600 max-w-3xl mx-auto mb-10">This chart provides a visual summary of my core competencies. It highlights a balanced expertise across database administration, project management, and stakeholder communication. Hover over the points to see the specific skills within each category.</p>
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-md border border-stone-200">
+                <div class="chart-container">
+                    <canvas id="skillsChart"></canvas>
+                </div>
             </div>
-        </div>
-        <div class="project">
-            <a href="https://chiazalozie-customerchurn.streamlit.app/" target="_blank">
-                <img src="PROJECT 4.png" alt="Project 4 Preview">
-            </a>
-            <div class="project-details">
-                <h3>CUSTOMER CHURCH</h3>
-                <p>Telco Customer Churn Predictor</p>
+        </section>
+
+        <!-- Professional Experience Timeline -->
+        <section id="experience" class="mb-12 md:mb-16">
+            <h2 class="text-3xl font-bold text-stone-800 text-center mb-12">Professional Experience</h2>
+            <div class="relative pl-10 border-l-4 border-stone-200">
+                <div class="timeline-item relative mb-10">
+                    <h3 class="text-2xl font-bold text-stone-800">Data Scientist</h3>
+                    <p class="text-stone-600 font-medium">NatWest, United Kingdom | June 2020 – Present</p>
+                    <button onclick="toggleDetails('details-ds')" class="toggle-btn mt-3 text-amber-700 font-semibold hover:text-amber-800 transition-colors flex items-center gap-2">Details <span class="arrow transition-transform">→</span></button>
+                    <div id="details-ds" class="hidden mt-4 bg-stone-50 p-4 rounded-lg border border-stone-200">
+                        <ul class="list-disc list-inside space-y-2 text-stone-600">
+                            <li>Spearheaded advanced data analysis initiatives on complex financial and HR data to identify critical patterns.</li>
+                            <li>Collaborated closely with engineering teams and senior leadership to provide expert support and clarify complex findings.</li>
+                            <li>Authored detailed test plans and summaries of data tests, ensuring precision and clear communication of project progress.</li>
+                            <li>Managed extensive structured and unstructured datasets, contributing to high-level solution architecture and data quality principles.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item relative mb-10">
+                    <h3 class="text-2xl font-bold text-stone-800">Junior Data Analyst</h3>
+                    <p class="text-stone-600 font-medium">Barclays Bank Plc, United Kingdom | July 2019 – April 2020</p>
+                    <button onclick="toggleDetails('details-jda')" class="toggle-btn mt-3 text-amber-700 font-semibold hover:text-amber-800 transition-colors flex items-center gap-2">Details <span class="arrow transition-transform">→</span></button>
+                    <div id="details-jda" class="hidden mt-4 bg-stone-50 p-4 rounded-lg border border-stone-200">
+                        <ul class="list-disc list-inside space-y-2 text-stone-600">
+                            <li>Supported critical data-driven initiatives by consolidating and analyzing diverse datasets to identify key patterns and trends.</li>
+                            <li>Contributed to the development of impactful analytical reports, using visual representations to convey concise insights.</li>
+                            <li>Assisted in rigorous data cleansing and validation efforts, ensuring strict adherence to established regulations.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item relative mb-10">
+                    <h3 class="text-2xl font-bold text-stone-800">Junior Data Science - Apprenticeship</h3>
+                    <p class="text-stone-600 font-medium">PWC UK, United Kingdom | September 2017 – April 2018</p>
+                    <button onclick="toggleDetails('details-apprentice')" class="toggle-btn mt-3 text-amber-700 font-semibold hover:text-amber-800 transition-colors flex items-center gap-2">Details <span class="arrow transition-transform">→</span></button>
+                    <div id="details-apprentice" class="hidden mt-4 bg-stone-50 p-4 rounded-lg border border-stone-200">
+                        <ul class="list-disc list-inside space-y-2 text-stone-600">
+                            <li>Acquired foundational experience in collecting, cleansing, and processing diverse financial and healthcare data.</li>
+                            <li>Designed and constructed Power BI dashboards to visualize key performance indicators.</li>
+                            <li>Executed complex SQL queries for data extraction and manipulation in reporting contexts.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
-        <!-- Add more projects as needed -->
-        <div class="project">
-            <a href="https://github.com/chiazokamalozie/PROJECTS/blob/main/DATA%20ANALYSIS/Customer%20Spending/Analysing%20Customer%20Spending.R" target="_blank">
-                <img src="project3.png" alt="Project 3 Preview">
-            </a>
-            <div class="project-details">
-                <h3>Customer Spending</h3>
-                <p>Analysing Customer Spending using R</p>
+        </section>
+
+        <!-- Volunteer Experience Timeline -->
+        <section id="volunteer-experience">
+            <h2 class="text-3xl font-bold text-stone-800 text-center mb-12">Volunteer Experience</h2>
+            <div class="relative pl-10 border-l-4 border-stone-200">
+                <div class="timeline-item timeline-item-volunteer relative mb-10">
+                    <h3 class="text-2xl font-bold text-stone-800">Trustee</h3>
+                    <p class="text-stone-600 font-medium">North Wellingborough Anglican Church | 2025 – Present</p>
+                    <button onclick="toggleDetails('details-trustee')" class="toggle-btn mt-3 text-amber-700 font-semibold hover:text-amber-800 transition-colors flex items-center gap-2">Details <span class="arrow transition-transform">→</span></button>
+                    <div id="details-trustee" class="hidden mt-4 bg-stone-50 p-4 rounded-lg border border-stone-200">
+                        <ul class="list-disc list-inside space-y-2 text-stone-600">
+                           <li>Led digital transformation and donor data tracking initiatives.</li>
+                           <li>Developed and implemented digital record-keeping systems to improve transparency and governance.</li>
+                           <li>Collaborated with finance and outreach teams to analyze giving patterns and optimize donor engagement.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item timeline-item-volunteer relative mb-10">
+                    <h3 class="text-2xl font-bold text-stone-800">Youth Volunteer</h3>
+                    <p class="text-stone-600 font-medium">Glenvale Primary School & Christ Church Bedford | 2015 – Present</p>
+                    <button onclick="toggleDetails('details-youth')" class="toggle-btn mt-3 text-amber-700 font-semibold hover:text-amber-800 transition-colors flex items-center gap-2">Details <span class="arrow transition-transform">→</span></button>
+                    <div id="details-youth" class="hidden mt-4 bg-stone-50 p-4 rounded-lg border border-stone-200">
+                        <ul class="list-disc list-inside space-y-2 text-stone-600">
+                           <li>Analyzed attendance and literacy program data to evaluate the efficacy of charitable interventions.</li>
+                           <li>Delivered mentoring and literacy support sessions to pupils.</li>
+                           <li>Assisted in organizing and delivering youth events, workshops, and summer programs.</li>
+                           <li>Supported social media efforts to promote events, increasing community engagement by 40%.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="education">
-        <h2>Education</h2>
-        <div class="education">
-            <h3>London Metropolitan MSc DATA ANALYST (Merit)</h3>
-            <p>2022 - 2023</p>
-        </div>
-        <div class="education">
-            <h3>Canterbury Christ Church University BSc (Hons) BUSINESS INFORMATION SYSTEMS</h3>
-            <p>2019 - 2022</p>
-        </div>
-    </section>
-
-    <section id="skills">
-        <h2>Technical & Digital Skills</h2>
-        <ul>
-            <li>Programming Languages: Python, JavaScript, React.js, PHP</li>
-            <li>Web Development: HTML, CSS, JavaScript</li>
-            <li>Frameworks & Libraries: Vue, React Native, Flask</li>
-            <li>Database Management: SQL, PostgreSQL</li>
-            <li>Cloud Solutions: GCP, Docker, Kubernetes</li>
-            <li>Tools & Technologies: GitHub, Node.js, Microsoft Office (Word, Excel)</li>
-            <li>Data Analysis: RStudio, Power BI</li>
-            <li>Adaptability: Flexible and adaptable to changing technologies and project requirements.</li>
-            <li>Customer Service: Skilled at providing effective solutions and support.</li>
-            <li>Creativity and Problem-Solving: Developing engaging activities and adapting plans.</li>
-            <li>Time Management: Balancing multiple responsibilities effectively.</li>
-            <li>Cultural Competence: Promoting inclusivity and understanding in diverse groups.</li>
-        </ul>
-    </section>
-
-    <section id="games">
-        <h2>Interactive Games</h2>
-        <div class="game">
-            <h3>Data Visualization Quiz</h3>
-            <p>Test your knowledge of data visualization techniques.</p>
-            <button onclick="startQuiz()">Start Quiz</button>
-            <div id="quiz-container"></div>
-        </div>
-        <div class="game">
-            <h3>Data Sorting Game</h3>
-            <p>Sort the data in the correct order.</p>
-            <button onclick="startSortingGame()">Start Game</button>
-            <div id="sorting-game-container"></div>
-        </div>
-        <div class="game">
-            <h3>Bar Chart Quiz</h3>
-            <p>Identify the correct data represented by the bar chart.</p>
-            <canvas id="barChart"></canvas>
-            <button onclick="checkBarChartAnswer()">Submit Answer</button>
-        </div>
-        <div class="game">
-            <h3>Pie Chart Sorting Game</h3>
-            <p>Sort the data categories in the correct order based on the pie chart.</p>
-            <canvas id="pieChart"></canvas>
-            <input type="text" id="sortedCategories" placeholder="Enter sorted categories">
-            <button onclick="checkPieChartSorting()">Check</button>
-        </div>
-        <div class="game">
-            <h3>Python Data Analysis Quiz</h3>
-            <p>Answer questions related to data analysis.</p>
-            <div id="python-quiz-container">
-                <script type="text/python">
-                    from browser import document, html, alert
-
-                    questions = [
-                        {"question": "What is the purpose of a scatter plot?", "options": ["Show distribution", "Show relationship", "Show trend"], "answer": "Show relationship"},
-                        {"question": "Which library is used for data manipulation in Python?", "options": ["NumPy", "Pandas", "Matplotlib"], "answer": "Pandas"},
-                        {"question": "What does SQL stand for?", "options": ["Structured Query Language", "Simple Query Language", "Structured Question Language"], "answer": "Structured Query Language"}
-                    ]
-
-                    current_question = 0
-                    score = 0
-
-                    def show_question():
-                        if current_question < len(questions):
-                            q = questions[current_question]
-                            document["python-quiz-container"].clear()
-                            document["python-quiz-container"] <= html.H3(q["question"])
-                            for option in q["options"]:
-                                button = html.BUTTON(option)
-                                button.bind("click", check_answer)
-                                document["python-quiz-container"] <= button
-                        else:
-                            document["python-quiz-container"].clear()
-                            document["python-quiz-container"] <= html.H3(f"Quiz completed! Your score: {score}/{len(questions)}")
-
-                    def check_answer(event):
-                        global current_question, score
-                        if event.target.text == questions[current_question]["answer"]:
-                            score += 1
-                            alert("Correct!")
-                        else:
-                            alert("Incorrect!")
-                        current_question += 1
-                        show_question()
-
-                    show_question()
-                </script>
+        <!-- Education & Certifications -->
+        <section id="education" class="mt-12 md:mt-16">
+            <h2 class="text-3xl font-bold text-stone-800 text-center mb-10">Education & Certifications</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md border border-stone-200">
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">Education</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="font-semibold">MSc Data Analytics (Distinction)</p>
+                            <p class="text-stone-600">London Metropolitan University | 2022-2023</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold">BSc Business Information Systems (2:1)</p>
+                            <p class="text-stone-600">Canterbury Christ Church University | 2019-2022</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border border-stone-200">
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">Certifications</h3>
+                    <ul class="space-y-3 text-stone-600">
+                        <li><span class="font-semibold text-stone-700">Microsoft Certified:</span> Data Analyst Associate</li>
+                        <li><span class="font-semibold text-stone-700">Business Analysis (ISEB)</span></li>
+                        <li><span class="font-semibold text-stone-700">PRINCE2 Foundation</span></li>
+                        <li><span class="font-semibold text-stone-700">Professional Scrum Product Owner I</span></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="game">
-            <h3>SQL Relationship Matching Game</h3>
-            <p>Match the relationships between the tables.</p>
-            <div id="sql-relationship-game">
-                <div class="table" draggable="true" ondragstart="drag(event)" id="table1">Table 1: Users</div>
-                <div class="table" draggable="true" ondragstart="drag(event)" id="table2">Table 2: Orders</div>
-                <div class="table" draggable="true" ondragstart="drag(event)" id="table3">Table 3: Products</div>
-                <div class="relationship" ondrop="drop(event)" ondragover="allowDrop(event)" id="relationship1">Users - Orders</div>
-                <div class="relationship" ondrop="drop(event)" ondragover="allowDrop(event)" id="relationship2">Orders - Products</div>
-            </div>
-            <button onclick="checkRelationships()">Check Relationships</button>
-        </div>
-    </section>
+        </section>
 
-    <section id="contact">
-        <h2>Contact</h2>
-        <div class="contact-info">
-            <p><i class="fas fa-envelope"></i> Email: chiazialozie@outlook.com</p>
-            <p><i class="fas fa-phone"></i> Phone: +4473944892</p>
-            <p><i class="fab fa-linkedin"></i> LinkedIn: <a href="https://www.linkedin.com/in/chiaz-alozie">chiaz alozie</a></p>
-            <p><i class="fab fa-github"></i> github: <a href="https://github.com/chiazokamalozie">Projects</a></p>
+        <!-- Footer -->
+        <footer class="text-center mt-16 pt-8 border-t border-stone-200">
+            <p class="text-stone-500">This interactive resume was built to demonstrate a proactive approach to communication and technology.</p>
+        </footer>
+    </div>
 
-        </div>
-    </section>
+    <script>
+        const ctx = document.getElementById('skillsChart').getContext('2d');
+        const skillsChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: [
+                    'SQL Server Admin', 
+                    'Database Performance', 
+                    'Security & Recovery', 
+                    'Project Management', 
+                    'Stakeholder Communication',
+                    'Data Analysis'
+                ],
+                datasets: [{
+                    label: 'Proficiency',
+                    data: [9, 8, 9, 7, 8, 9],
+                    backgroundColor: 'rgba(217, 119, 6, 0.2)',
+                    borderColor: 'rgba(217, 119, 6, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(217, 119, 6, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(217, 119, 6, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(120, 113, 108, 0.2)' },
+                        grid: { color: 'rgba(120, 113, 108, 0.2)' },
+                        pointLabels: {
+                            font: { size: 13, weight: '500' },
+                            color: '#57534e'
+                        },
+                        ticks: {
+                            backdropColor: 'transparent',
+                            color: '#a8a29e',
+                            stepSize: 2,
+                            max: 10,
+                            min: 0
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `Proficiency: ${context.parsed.r} / 10`
+                        }
+                    }
+                }
+            }
+        });
 
-    <footer>
-        <p>&copy; 2023 CHIAZOKAM ALOZIE PORTFOLIO</p>
-    </footer>
+        function toggleDetails(elementId) {
+            const element = document.getElementById(elementId);
+            const button = element.previousElementSibling;
+            const isHidden = element.classList.contains('hidden');
+            
+            if (isHidden) {
+                element.classList.remove('hidden');
+                button.classList.add('expanded');
+            } else {
+                element.classList.add('hidden');
+                button.classList.remove('expanded');
+            }
+        }
+    </script>
 
-    <script src="script.js"></script>
 </body>
 </html>
